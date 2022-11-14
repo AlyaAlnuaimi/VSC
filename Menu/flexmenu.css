@@ -1,0 +1,58 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.flex-menu{
+    background-color: lightpink;
+}
+.items li{
+    /*hne agder a5tar style for the list
+    EX: change the bullte points into square shape*/
+    list-style: none;
+    position: relative;
+}
+/* > means li(list item) elly t7t elitems 3la 6ool*/
+.items > li{
+    display: block;
+}
+.items li:hover{
+    background-color: azure;
+    /*change the mouse shape*/
+    cursor: pointer;
+}
+/*IF the mouse hover then display the un-orderedlist inside category */
+.items li:hover ul{
+    display: block;
+}
+/*hide the un-orderedlist inside category*/
+.items ul{
+    display: none;
+    position: absolute;
+    border: 1px solid black;
+    background-color: blanchedalmond;
+    /*to manage the space 
+    and keep the sup-list down*/
+    width: 100%;
+    left:0px;
+    /*we can calculate from model box*/
+    top: 50px; 
+    /*or top:100%;*/
+}
+.items ul > li{
+    color: rgb(226, 43, 144);
+    padding: 5px;
+}
+.flex-menu .items > li{
+    border: 1px solid black;
+    padding: 5px;
+}
+.flex-menu .items{
+    /*the menu will not order well
+    if i remove (display flex)*/
+display: flex;
+height: 50px;
+/*space between the elements*/
+gap: 10px;
+}
+
+

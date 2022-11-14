@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.menu{
+    background-color: lightpink;
+}
+.items li{
+    /*hne agder a5tar style for the list
+    EX: change the bullte points into square shape*/
+    list-style: none;
+    position: relative;
+}
+/* > means li(list item) elly t7t elitems 3la 6ool*/
+.items > li{
+    display: block;
+    /*padding left and right*/
+    padding: 15px 20px;
+    border: 1px solid black;
+    float: left;
+}
+.items li:hover{
+    background-color: azure;
+    /*change the mouse shape*/
+    cursor: pointer;
+}
+/*IF the mouse hover then display the un-orderedlist inside category */
+.items li:hover ul{
+    display: block;
+}
+/*hide the un-orderedlist inside category*/
+.items ul{
+    display: none;
+    position: absolute;
+    border: 1px solid black;
+    background-color: blanchedalmond;
+    /*to manage the space 
+    and keep the sup-list down*/
+    width: 100%;
+    left:0px;
+    /*we can calculate from model box*/
+    top: 50px; 
+    /*or top:100%;*/
+}
+.items ul > li{
+    color: rgb(226, 43, 144);
+    padding: 5px;
+}
+
+/*psuodo element - 3shan ma y5trb elly sweeta bl:float */
+.items::after{
+    content: '';
+    display: block;
+    clear: both;
+}
