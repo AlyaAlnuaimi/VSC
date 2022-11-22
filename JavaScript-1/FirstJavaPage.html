@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- on click mean once i click on the botton-->
+    <button
+      type="button"
+      onclick="console.log('clicked')"
+      onmouseenter="console.log('enter')"
+      onmouseleave="console.log('leave')"
+      onmousedown="console.log('down')"
+      ondblclick="console.log('dbclick')"
+    >
+      Click Me (Events)
+    </button>
+<!--function "getelementbyid".value -> 3shan agder a5th al8eemh mn elinput -->
+    <button onclick="alert(document.getElementById('first_number').value + document.getElementById('second_number').value)">Add</button>
+    <input type="number" id="first_number" placeholder="N1" />
+    <input type="number" id="second_number" placeholder="N2" />
+    <div class="test-div"></div>
+    <script>
+      /*
+      Alert and Comments
+      alert("Hello World!");
+      alert(6);
+      alert(5 + 12.5);
+    */
+      //console.log("Hello World!");
+      //console.log(12 + 9);
+    </script>
+
+    <script src="/JavaScript/script.js"></script>
+  </body>
+</html>
