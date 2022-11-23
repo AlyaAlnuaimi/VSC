@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link href="/add product/homepage.css" rel="stylesheet" />
+    <link href="/fontawesome-free-6.2.0-web/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="small-nav">
+        <ul class="links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Help</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+        <div class="lists">
+          <div class="list">
+            <div>My Account</div>
+            <ul class="menu">
+              <li>Sign in</li>
+              <li>Sign up</li>
+            </ul>
+          </div>
+          <div class="list">
+            <div>USD</div>
+            <ul class="menu">
+              <li>SAR</li>
+              <li>EGP</li>
+            </ul>
+          </div>
+          <div class="list">
+            <div>EN</div>
+            <ul class="menu">
+              <li>AR</li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <header id="main-header">
+        <div class="logo">
+          <span>Multi</span>
+          <span>Shop</span>
+        </div>
+        <div class="search-bar">
+          <form action="result.php">
+            <input type="text" placeholder="Search product" />
+            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+          </form>
+        </div>
+        <div class="customer-service">
+          <p>Customer Service<br />+012 345 6789</p>
+        </div>
+      </header>
+      <div id="parent">
+        <div class="category">
+          <li><i class="fa-solid fa-list-ul"></i> Categories</li>
+          <ul class="categories">
+            <li><a href="#">Clothes</a></li>
+            <li><a href="#">Accessories</a></li>
+            <li><a href="#">Bags</a></li>
+          </ul>
+        </div>
+      </div>
+      <ul class="main-menu">
+        <li><a href="/add product/homepage.html">Home</a></li>
+        <li><a href="/add product/shop.html" class="nav-item nav-link">Shop</a></li>
+        <li><a href="#">Shop Details</a></li>
+        <li><a href="#">Pages</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <br>
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+          <div class="col-lg-8 table-responsive mb-5">
+            <table
+              class="table table-light table-borderless table-hover text-center mb-0"
+            >
+              <thead class="thead-dark">
+                <tr>
+                  <th>
+                    <input
+                      type="text"
+                      id="product-name"
+                      placeholder="Product Name"
+                    />
+                  </th>
+                  <th><input type="text" id="price" placeholder="Price" /></th>
+                  <th>
+                    <input type="text" id="quantity" placeholder="Quantity" />
+                  </th>
+                  
+                  <th colspan="2"><button onclick="addItems()">Add</button></th>
+                </tr>
+            
+                <tr class="firstrow">
+                    
+                  <th>Products</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                  <th>Remove</th>
+    
+                </tr>
+              </thead>
+              <tbody class="align-middle" id="products">
+              </tbody>
+            </table>
+            <script src="/add product/script.js"></script>
+</body>
+</html>
