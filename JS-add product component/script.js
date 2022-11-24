@@ -1,9 +1,17 @@
 "use strict";
 function addItems(){
-    let product = document.getElementById('products');
-    let product_name = document.getElementById('product-name');
-    let tr = document.createElement("tr");
-    tr.setAttribute('id', product_name.value);
-    tr.appendChild(document.createTextNode(product_name.value));
-    product.appendChild(tr);
+    let table = document.getElementsByTagName('table')[0];
+    let product_name = document.getElementById('product-name').value;
+    let product_price = document.getElementById('price').value;
+    let product_quantity = document.getElementById('quantity').value;
+    
+    let newRow = table.insertRow(2);
+    let cell1 = newRow.insertCell(0);
+    let cell2 = newRow.insertCell(1);
+    let cell3 = newRow.insertCell(2);
+
+    cell1.innerHTML = product_name;
+    cell2.innerHTML = product_price;
+    cell3.innerHTML = product_quantity;
+
 }
