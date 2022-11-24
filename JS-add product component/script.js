@@ -15,3 +15,10 @@ function addItems(){
     cell3.innerHTML = product_quantity;
 
 }
+
+let table = document.getElementById('price'), sumVal = 0;
+for(var i = 1; i < table.rows.length; i++)
+{
+    sumVal = sumVal + table.rows[i].cells[3].innerHTML;
+}
+console.log(sumVal);
