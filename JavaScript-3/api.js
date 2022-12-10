@@ -11,7 +11,7 @@
 // request.addEventListener("load", loadProducts);
 
 
-// send request to the server 
+// send request to the server // fetch must be used with (then function.) 
 const request = fetch("https://warm-mesa-88190.herokuapp.com/api/products/");
 request
 //send the request 
