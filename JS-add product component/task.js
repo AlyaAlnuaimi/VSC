@@ -1,185 +1,201 @@
-class CartObject {
-    //properties
-    CartLines;
-    #total;
+class Order {
+    orderDetails;
     user;
     paymentMethod;
-
-    constructor(){
-        this.CartLines = [];
+  
+    constructor() {
+      this.orderDetails = [];
     }
+  
     get total() {
-       return (this.subTotal + this.shipping) * (1 + this.getPaymentCost());
+      return (this.subTotal + this.shipping) * (1 + this.getPaymentCost());
     }
-    get subTotal(){
-        // take the total only from CartLines using (map)
-        this.CartLines.map(x=>x.total).reduce((a,v) => (a += v), 0);
+  
+    get subTotal() {
+      return this.orderDetails.map((x) => x.total).reduce((a, v) => (a += v), 0);
     }
-    get shipping(){
-        return (
-            this.CartLines.map(x=>x.quantity).reduce((a,v) => (a += v), 0) * 2
-            );
+  
+    get shipping() {
+      return (
+        this.orderDetails.map((x) => x.quantity).reduce((a, v) => (a += v), 0) * 2
+      );
     }
-    getPaymentCost(){
-        switch(this.paymentMethod?.toLowerCase()){
-            case "paypal":
-                return 0;
-            case "check" :
-                return 0.01;
-            case "bank-transfer" :
-                return 0.02;
-            default :
-                return 0;
+  
+    getPaymentCost() {
+      switch (this.paymentMethod?.toLowerCase()) {
+        case "paypal":
+          return 0;
+        case "check":
+          return 0.01;
+        case "bank-transfer":
+          return 0.02;
+        default:
+          return 0;
+      }
+    }
+  
+    addProductById(id) {
+      let orderDetail = this.orderDetails.find((x) => x.product.id === id);
+      if (orderDetail) {
+        orderDetail.increaseQuantity(1);
+      }
+      return orderDetail;
+    }
+  
+    addProduct(product) {
+      let orderDetail = this.addProductById(product.id);
+      if (!orderDetail) {
+        const ids = this.orderDetails.map((x) => x.id);
+        const maxId = Math.max(...(ids.length > 0 ? ids : [0]));
+        orderDetail = new OrderDetail(product);
+        orderDetail.id = maxId + 1;
+        this.orderDetails.push(orderDetail);
+      }
+    }
+  
+    deleteProduct(id) {
+      let orderDetail = this.orderDetails.find((x) => x.product.id == id);
+      if (orderDetail) {
+        if (orderDetail.quantity == 1) this.removeDetail(orderDetail.id);
+        else {
+          orderDetail.decreaseQuantity(1);
         }
+      }
     }
-            
-        }
-        return CartLines;
+  
+    removeDetail(id) {
+      const index = this.orderDetails.findIndex((x) => x.id === id);
+      this.orderDetails.splice(index, 1);
     }
-
-            const ids = thins.CartLines.map((x) => x.id);
-            const maxId = Math.max(...CartLines(ids.length > 0 ? ids : [0]));
-            CartLines = new CartLines(product);
-            CartLines.id = maxId + 1;
-            this.CartLines.push(CartLines);
-        }
+  
+    render() {
+      this.renderTotal();
+      this.renderTable();
     }
-    deleteProduct(id){
-    let CartLines = this.CartLines.find((x)=>x.product.id == id);
-    if(CartLines){
-        if(CartLines.quantity == 1) this.removeDetail(CartLines.id);
-        else{
-            CartLines.decreaseQuantity(1);
-        }
-     }
+  
+    renderTotal() {
+      document.getElementById("total").innerHTML = this.total;
+      document.getElementById("sub-total").innerHTML = this.subTotal;
+      document.getElementById("shipping").innerHTML = this.shipping;
     }
-    removeDetail(id){
-        this.CartLines.findIndex(x=>x.id === id);
-        this.CartLines.sploce(index,1);
-    }
-
-    render(){
-        this.renderTotal();
-    }
-    renderTotal(){
-    document.getElementById("total").innerHTML = this.total;
-    document.getElementById("sub-total").innerHTML = this.subTotal;
-    document.getElementById("shipping").innerHTML = this.shipping;
-    }
-
-    renderTable(){
-        document.getElementById('products').innerHTML = '';
-        this.CartLines.forEach((x) => {
+  
+    renderTable() {
+      document.getElementById("products").innerHTML = "";
+      this.orderDetails.forEach((x) => {
         document.getElementById("products").innerHTML += x.getHtmlRow();
-        });
+      });
     }
-    saveChanges(){
-        const product = [];
-        this.CartLines.forEach((d) => {
-            for (let i=0; i<d; i++) {
-                product.push(d.product);
-            }
-        });
-        localStorage.setItem('products',JSON.stringify(product));
+  
+    saveChanges() {
+      const products = [];
+      this.orderDetails.forEach((d) => {
+        for (let i = 0; i < d.quantity; i++) {
+          products.push(d.product);
+        }
+      });
+      localStorage.setItem("products", JSON.stringify(products));
     }
-}
-class CartLines{
+  }
+  
+  class OrderDetail {
     id;
     product;
     quantity;
     price;
-
-    get total(){
-        return this.price * this.quantity;
+  
+    get total() {
+      return this.price * this.quantity;
     }
-    constructor(product){
-        this.product = product;
-        this.quantity = 1;
-        this.price = product.price;
+  
+    constructor(product) {
+      this.product = product;
+      this.quantity = 1;
+      this.price = product.price;
     }
-    increaseQuantity(q){
-    this.quantity += q;
+  
+    increaseQuantity(q) {
+      this.quantity += q;
     }
-    decreaseQuantity(q){
-        // to prevent being 0
-        if(this.quantity > q) this.quantity -= q;
+  
+    decreaseQuantity(q) {
+      if (this.quantity > q) this.quantity -= q;
     }
-    getHtmlRow(){
-        return  `<tr>
-        <td class="align-middle">
-        <img src="${this.product.image}" alt="" style="width: 50px;"> ${this.product.name}</td>
-        <td class="align-middle">$${this.price}</td>
-        <td class="align-middle">
-            <div class="input-group quantity mx-auto" style="width: 100px;">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-sm btn-primary btn-minus" onclick="cartObject.removeDetail(${this.id});cartObject.saveChanges();cartObject.render();">
-                    <i class="fa fa-minus"></i>
-                    </button>
-                </div>
-                <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="${
-                  this.quantity
-                }">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-sm btn-primary btn-plus" onclick="cartObject.addProductById(${this.product.id});cartObject.saveChanges();cartObject.render();">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </td>
-        <td class="align-middle">$${this.total}</td>
-        <td class="align-middle"><button class="btn btn-sm btn-danger" type="button" onclick="cartObject.deleteProduct(${this.product.id});cartObject.render();"><i class="fa fa-times"></i></button></td>
-    </tr>`
+  
+    getHtmlRow() {
+      return `  <tr>
+      <td class="align-middle">
+        <img src="${this.product.image}" alt="" style="width: 50px" />
+        ${this.product.name}
+      </td>
+      <td class="align-middle">$${this.price}</td>
+      <td class="align-middle">
+        <div
+          class="input-group quantity mx-auto"
+          style="width: 100px"
+        >
+          <div class="input-group-btn">
+            <button
+              onclick="order.deleteProduct(${this.product.id});order.saveChanges();order.render();"
+              type="button"
+              class="decBtn btn btn-sm btn-primary btn-minus"
+            >
+              <i class="fa fa-minus"></i>
+            </button>
+          </div>
+          <input
+            type="text"
+            class="quantityVal form-control form-control-sm bg-secondary border-0 text-center"
+            value="${this.quantity}"
+          />
+          <div class="input-group-btn">
+            <button
+            onclick="order.addProductById(${this.product.id});order.saveChanges();order.render();"
+              type="button"
+              class="incBtn btn btn-sm btn-primary btn-plus"
+            >
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </td>
+      <td class="align-middle">$${this.total}</td>
+      <td class="align-middle">
+        <button class="btn btn-sm btn-danger" type="button" onclick="order.removeDetail(${this.id});order.saveChanges();order.render();">
+          <i class="fa fa-times"></i>
+        </button>
+      </td>
+    </tr>`;
     }
-}
-class product{
+  }
+  
+  class Product {
     id;
     name;
     image;
     price;
-
-    constructor(product){
-        this.id = product.id;
-        this.name = product.name;
-        this.image = product.image;
-        this.price = product.price;
+    constructor(product) {
+      this.id = product.id;
+      this.name = product.name;
+      this.image = product.image;
+      this.price = product.price;
     }
-}
-class user {
+  }
+  
+  class User {
     firstName;
     lastName;
     address;
-
-    constructor(firstName,lastName,address){
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.address = address;
+  
+    constructor(user) {
+      this.firstName = user.firstName;
+      this.lastName = user.lastName;
+      this.address = user.address;
     }
-
-    constructor(user){
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.address = user.address;
-    }
-}
-
-let CartObject = new CartObject();
-
-const product = JSON.parse(localStorage.getItem("products")??"[]");
-product.forEach((x) => {
-    CartObject.addProduct(new product(x))
-});
-
-/*let product1 = new product({
-    id: 1,
-    name: "product1",
-    image: "JS-add product component/img/product-1.jpg",
-    price: 100,
-});*/
-/*let product2 = new product({
-    id:2,
-    name: "product2",
-    image:"JS-add product component/img/product-2.jpg",
-    price: 100,
-});*/
-
-CartObject.render();
+  }
+  
+  let order = new Order();
+  const products = JSON.parse(localStorage.getItem("products") ?? "[]");
+  products.forEach((x) => {
+    order.addProduct(new Product(x));
+  });
+  order.render();
