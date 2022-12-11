@@ -32,19 +32,10 @@ class CartObject {
                 return 0;
         }
     }
-    addProductById(id){
-        let CartLines = this.CartLines.find((x)=>x.product.id === id);
-        if(CartLines){
-            // if the product is added already increase the quantity by 1 
-            CartLines.increaseQuantity(1);
             
         }
         return CartLines;
     }
-    addProduct(product){
-        // if the product add for the first time -> add new product
-        let CartLines = this.addProductById(product.id)
-        if(!CartLines){
 
             const ids = thins.CartLines.map((x) => x.id);
             const maxId = Math.max(...CartLines(ids.length > 0 ? ids : [0]));
@@ -97,7 +88,6 @@ class CartLines{
     product;
     quantity;
     price;
-    #total;
 
     get total(){
         return this.price * this.quantity;
@@ -170,7 +160,6 @@ class user {
         this.lastName = user.lastName;
         this.address = user.address;
     }
-
 }
 
 let CartObject = new CartObject();
