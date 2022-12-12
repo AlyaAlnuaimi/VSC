@@ -77,5 +77,4 @@ const getProductHTMLRow = (p, i) => {
 </tr>`;
 };
 
-
 renderHTML();
